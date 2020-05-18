@@ -1,0 +1,15 @@
+Package: assembled.gtf.tasic.2018.nature
+Type: Package
+Title: Assembled transcriptome from scRNA-seq of mouse visual cortex
+Version: 0.1.0
+Author: Fursham Hamid
+Maintainer: Fursham Hamid <fursham.h@gmail.com>
+Description: 
+    This package contain raw data files processed from transcriptome sequencing 
+of individual cells extracted from mouse visual cortex. Aligned reads (BAM) from cells 
+grouped into each of the four cell clusters (GABAergic, Glutamatergic, Non-neuronal, Endothelial) 
+were merged and transcripts were assembled using StringTie assembler. Refseq chromosome IDs
+were converted into Ensembl IDs.
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
