@@ -6,7 +6,7 @@ mkdir FASTQ
 # Parse tasic_fastq_curated.txt and download FASTQ files
 while IFS=$'\t' read -r ACC LINK NAME;do
  	wget $LINK -P FASTQ
-done < ont_fastq_curated.txt
+done < ont_fastq.txt
 
 
 if [ ! -f "gencode.vM25.annotation.gtf" ]; then
