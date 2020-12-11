@@ -29,3 +29,20 @@ for file in ERR2680377 ERR3363658_1 ERR3363660_1; do
 done
 
 
+# Section ____: Assembling transcriptome
+
+# Download reference transcriptome, if absent
+if [ ! -f "gencode.vM25.annotation.gtf" ]; then
+	wget ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M25/gencode.vM25.annotation.gtf.gz
+	gzip -d gencode.vM25.annotation.gtf.gz
+fi
+
+# Assemble transcriptome using StringTie
+mkdir Stringtie_gtf
+for file in ERR2680377 ERR3363658_1 ERR3363660_1; do
+	stringtie minimap2_sorted_BAMs/$file.bam -p $cores -o Stringtie_gtf/$file.gtf -G gencode.vM25.annotation.gtf
+done
+
+# Merge transcriptome
+stringtie --merge -G gencode.vM25.annotation.gtf -o sc_merged.gtf Stringtie_gtf/ERR2680377.gtf Stringtie_gtf/ERR3363658_1.gtf Stringtie_gtf/ERR3363660_1.gtf 
+
