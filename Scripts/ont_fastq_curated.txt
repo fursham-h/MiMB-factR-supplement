@@ -1,0 +1,3 @@
+ERR2680377	ftp.sra.ebi.ac.uk/vol1/fastq/ERR268/007/ERR2680377/ERR2680377.fastq.gz	brain_C1
+ERR3363658	ftp.sra.ebi.ac.uk/vol1/fastq/ERR336/008/ERR3363658/ERR3363658_1.fastq.gz	brain_C2R1
+ERR3363660	ftp.sra.ebi.ac.uk/vol1/fastq/ERR336/000/ERR3363660/ERR3363660_1.fastq.gz	brain_C2R2

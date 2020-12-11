@@ -21,10 +21,10 @@ done
 
 # Section __: Merge assembled transcriptome
 declare -a array_exp
-for filename in "$@"; do
-	array_exp+="Stringtie_gtf/${filename}.gtf "
+for filename in Stringtie_gtf; do
+	array_exp+=$filename
 done
-stringtie --merge -G gencode.vM25.annotation.gtf ${array_exp[*]}
+stringtie --merge -G gencode.vM25.annotation.gtf -o sc_merged.gtf ${array_exp[*]}
 
 
 
