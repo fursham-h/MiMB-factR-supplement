@@ -17,15 +17,16 @@ done < sc_fastq_curated.txt
 declare -A fastqArray
 declare -A fastqNames
 
-while IFS=$'\t' read -r NAME CLASS LINK CLASSNUM;do
-	fastqArray["$CLASSNUM.1"]="${fastqArray["$CLASSNUM.1"]} FASTQ_sc/${NAME}_R1.fastq.gz"
-	fastqArray["$CLASSNUM.2"]="${fastqArray["$CLASSNUM.2"]} FASTQ_sc/${NAME}_R2.fastq.gz"
-	fastqNames["$CLASSNUM.1"]=${CLASS}_R1
-	fastqNames["$CLASSNUM.2"]=${CLASS}_R2
+while IFS=$'\t' read -r NAME CLASS LINK;do
+    fastqArray["$CLASS.1"]="${fastqArray["$CLASS.1"]} FASTQ_sc/${NAME}_R1.fastq.gz"
+    fastqArray["$CLASS.2"]="${fastqArray["$CLASS.2"]} FASTQ_sc/${NAME}_R2.fastq.gz"
+    fastqNames["$CLASS.1"]=${CLASS}_R1
+    fastqNames["$CLASS.2"]=${CLASS}_R2
 done < sc_fastq_curated.txt
 
+
 ### Loop groups and concatenate FASTQ by direction
-for (( n=1; n<=4; n++ ));do
+for n in Glutamatergic GABAergic Endothelial Astrocyte;do
 	cat ${fastqArray["$n.1"]} > FASTQ_sc/${fastqNames["$n.1"]}.fastq.gz
 	cat ${fastqArray["$n.2"]} > FASTQ_sc/${fastqNames["$n.2"]}.fastq.gz
 done
