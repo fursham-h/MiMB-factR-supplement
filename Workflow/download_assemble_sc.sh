@@ -44,13 +44,13 @@ fi
 # Align reads to mm10 genome
 cores=`nproc`
 mkdir Hisat2_SAMs
-for fastq in Glutamatergic GABAergic Endothelial Non_Neuronal;do
+for fastq in Glutamatergic GABAergic Endothelial Astrocyte;do
 	hisat2 -p $cores --dta -x mm10/genome -1 FASTQ/"$fastq"_R1.fastq.gz -2 FASTQ/"$fastq"_R2.fastq.gz -S Hisat2_SAMs/$fastq.sam
 done
 
 # Convert SAMs to BAMs
 mkdir Hisat2_sorted_BAMs
-for file in Glutamatergic GABAergic Endothelial Non_Neuronal; do
+for file in Glutamatergic GABAergic Endothelial Astrocyte; do
 	samtools view -@ $cores -Su Hisat2_SAMs/$file.sam | samtools sort -@ $cores -o Hisat2_sorted_BAMs/$file.bam
 done
 
@@ -65,17 +65,17 @@ fi
 
 # Assemble transcriptome using StringTie
 mkdir Stringtie_gtf
-for file in Glutamatergic GABAergic Endothelial Non_Neuronal; do
+for file in Glutamatergic GABAergic Endothelial Astrocyte; do
 	stringtie Hisat2_sorted_BAMs/$file.bam -p $cores -o Stringtie_gtf/$file.gtf -G gencode.vM25.annotation.gtf
 done
 
 # Merge transcriptome
-stringtie --merge -G gencode.vM25.annotation.gtf -o sc_merged.gtf Stringtie_gtf/Glutamatergic.gtf Stringtie_gtf/GABAergic.gtf Stringtie_gtf/Endothelial.gtf Stringtie_gtf/Non_Neuronal.gtf
+stringtie --merge -G gencode.vM25.annotation.gtf -o sc_merged.gtf Stringtie_gtf/Glutamatergic.gtf Stringtie_gtf/GABAergic.gtf Stringtie_gtf/Endothelial.gtf Stringtie_gtf/Astrocyte.gtf
 
 
 # Assemble transcriptome using StringTie
 mkdir Stringtie_gtf_new
-for file in Glutamatergic GABAergic Endothelial Non_Neuronal; do
+for file in Glutamatergic GABAergic Endothelial Astrocyte; do
 	mkdir Stringtie_gtf_new/$file
 	stringtie Hisat2_sorted_BAMs/$file.bam -p $cores -o Stringtie_gtf_new/$file/$file.gtf -G sc_merged.gtf
 done
