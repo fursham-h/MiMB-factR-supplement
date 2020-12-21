@@ -4,11 +4,11 @@
 
 
 ## Parse tasic_fastq_curated.txt and download FASTQ files
-mkdir FASTQ
+mkdir FASTQ_sc
 while IFS=$'\t' read -r NAME CLASS LINK CLASSNUM;do
- 	wget $LINK -P FASTQ
- 	tar -xvf "FASTQ/$NAME.fastq.tar" -C FASTQ
- 	rm FASTQ/$NAME.fastq.tar
+ 	wget $LINK -P FASTQ_sc
+ 	tar -xvf "FASTQ_sc/$NAME.fastq.tar" -C FASTQ_sc
+ 	rm FASTQ_sc/$NAME.fastq.tar
 done < sc_fastq_curated.txt
 
 ## Merge cell from same clusters
@@ -18,16 +18,16 @@ declare -A fastqArray
 declare -A fastqNames
 
 while IFS=$'\t' read -r NAME CLASS LINK CLASSNUM;do
-	fastqArray["$CLASSNUM.1"]="${fastqArray["$CLASSNUM.1"]} FASTQ/${NAME}_R1.fastq.gz"
-	fastqArray["$CLASSNUM.2"]="${fastqArray["$CLASSNUM.2"]} FASTQ/${NAME}_R2.fastq.gz"
+	fastqArray["$CLASSNUM.1"]="${fastqArray["$CLASSNUM.1"]} FASTQ_sc/${NAME}_R1.fastq.gz"
+	fastqArray["$CLASSNUM.2"]="${fastqArray["$CLASSNUM.2"]} FASTQ_sc/${NAME}_R2.fastq.gz"
 	fastqNames["$CLASSNUM.1"]=${CLASS}_R1
 	fastqNames["$CLASSNUM.2"]=${CLASS}_R2
 done < sc_fastq_curated.txt
 
 ### Loop groups and concatenate FASTQ by direction
 for (( n=1; n<=4; n++ ));do
-	cat ${fastqArray["$n.1"]} > FASTQ/${fastqNames["$n.1"]}.fastq.gz
-	cat ${fastqArray["$n.2"]} > FASTQ/${fastqNames["$n.2"]}.fastq.gz
+	cat ${fastqArray["$n.1"]} > FASTQ_sc/${fastqNames["$n.1"]}.fastq.gz
+	cat ${fastqArray["$n.2"]} > FASTQ_sc/${fastqNames["$n.2"]}.fastq.gz
 done
 
 
@@ -43,15 +43,15 @@ fi
 
 # Align reads to mm10 genome
 cores=`nproc`
-mkdir Hisat2_SAMs
+mkdir Hisat2_SAMs_sc
 for fastq in Glutamatergic GABAergic Endothelial Astrocyte;do
-	hisat2 -p $cores --dta -x mm10/genome -1 FASTQ/"$fastq"_R1.fastq.gz -2 FASTQ/"$fastq"_R2.fastq.gz -S Hisat2_SAMs/$fastq.sam
+	hisat2 -p $cores --dta -x mm10/genome -1 FASTQ_sc/"$fastq"_R1.fastq.gz -2 FASTQ_sc/"$fastq"_R2.fastq.gz -S Hisat2_SAMs_sc/$fastq.sam
 done
 
 # Convert SAMs to BAMs
-mkdir Hisat2_sorted_BAMs
+mkdir Hisat2_sorted_BAMs_sc
 for file in Glutamatergic GABAergic Endothelial Astrocyte; do
-	samtools view -@ $cores -Su Hisat2_SAMs/$file.sam | samtools sort -@ $cores -o Hisat2_sorted_BAMs/$file.bam
+	samtools view -@ $cores -Su Hisat2_SAMs_sc/$file.sam | samtools sort -@ $cores -o Hisat2_sorted_BAMs_sc/$file.bam
 done
 
 
@@ -64,18 +64,11 @@ if [ ! -f "gencode.vM25.annotation.gtf" ]; then
 fi
 
 # Assemble transcriptome using StringTie
-mkdir Stringtie_gtf
+mkdir Stringtie_gtf_sc
 for file in Glutamatergic GABAergic Endothelial Astrocyte; do
-	stringtie Hisat2_sorted_BAMs/$file.bam -p $cores -o Stringtie_gtf/$file.gtf -G gencode.vM25.annotation.gtf
+	stringtie Hisat2_sorted_BAMs_sc/$file.bam -p $cores -o Stringtie_gtf_sc/$file.gtf -G gencode.vM25.annotation.gtf
 done
 
 # Merge transcriptome
-stringtie --merge -G gencode.vM25.annotation.gtf -o sc_merged.gtf Stringtie_gtf/Glutamatergic.gtf Stringtie_gtf/GABAergic.gtf Stringtie_gtf/Endothelial.gtf Stringtie_gtf/Astrocyte.gtf
+stringtie --merge -G gencode.vM25.annotation.gtf -o sc_merged.gtf Stringtie_gtf_sc/Glutamatergic.gtf Stringtie_gtf_sc/GABAergic.gtf Stringtie_gtf_sc/Endothelial.gtf Stringtie_gtf_sc/Astrocyte.gtf
 
-
-# Assemble transcriptome using StringTie
-mkdir Stringtie_gtf_new
-for file in Glutamatergic GABAergic Endothelial Astrocyte; do
-	mkdir Stringtie_gtf_new/$file
-	stringtie Hisat2_sorted_BAMs/$file.bam -p $cores -o Stringtie_gtf_new/$file/$file.gtf -G sc_merged.gtf
-done
