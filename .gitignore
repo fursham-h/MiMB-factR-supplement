@@ -38,6 +38,6 @@ vignettes/*.pdf
 *.knit.md
 
 _old
-.DS_store
+.DS_Store
 .Rbuildignore
 
