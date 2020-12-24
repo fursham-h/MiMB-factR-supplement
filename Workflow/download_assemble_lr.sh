@@ -9,7 +9,7 @@ while IFS=$'\t' read -r ACC LINK NAME;do
 done < lr_fastq.txt
 
 
-if [ ! -f "gencode.vM25.annotation.gtf" ]; then
+if [ ! -f "GRCm38.primary_assembly.genome.fa" ]; then
 	wget ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M25/GRCm38.primary_assembly.genome.fa.gz
 	gzip -d GRCm38.primary_assembly.genome.fa.gz
 fi
@@ -46,5 +46,4 @@ for file in ERR2680377 ERR3363658_1 ERR3363660_1; do
 done
 
 # Merge transcriptome
-stringtie --merge -G gencode.vM25.annotation.gtf -o lr_merged.gtf Stringtie_gtf_lr/ERR2680377.gtf Stringtie_gtf_lr/ERR3363658_1.gtf Stringtie_gtf_lr/ERR3363660_1.gtf 
-
+stringtie --merge -G gencode.vM25.annotation.gtf Stringtie_gtf_lr/ERR2680377.gtf Stringtie_gtf_lr/ERR3363658_1.gtf Stringtie_gtf_lr/ERR3363660_1.gtf | gzip > lr_merged.gtf.gz 

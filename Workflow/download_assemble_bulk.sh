@@ -43,6 +43,4 @@ for file in SRR606187 SRR606188 SRR606189 SRR606190; do
 done
 
 # Merge transcriptome
-stringtie --merge -G gencode.vM25.annotation.gtf -o bulk_merged.gtf Stringtie_gtf_bulk/SRR606187.gtf Stringtie_gtf_bulk/SRR606188.gtf Stringtie_gtf_bulk/SRR606189.gtf Stringtie_gtf_bulk/SRR606190.gtf
-
-
+stringtie --merge -G gencode.vM25.annotation.gtf Stringtie_gtf_bulk/SRR606187.gtf Stringtie_gtf_bulk/SRR606188.gtf Stringtie_gtf_bulk/SRR606189.gtf Stringtie_gtf_bulk/SRR606190.gtf | gzip > bulk_merged.gtf.gz

@@ -71,5 +71,5 @@ for file in Glutamatergic GABAergic Endothelial Astrocyte; do
 done
 
 # Merge transcriptome
-stringtie --merge -G gencode.vM25.annotation.gtf -o sc_merged.gtf Stringtie_gtf_sc/Glutamatergic.gtf Stringtie_gtf_sc/GABAergic.gtf Stringtie_gtf_sc/Endothelial.gtf Stringtie_gtf_sc/Astrocyte.gtf
+stringtie --merge -G gencode.vM25.annotation.gtf Stringtie_gtf_sc/Glutamatergic.gtf Stringtie_gtf_sc/GABAergic.gtf Stringtie_gtf_sc/Endothelial.gtf Stringtie_gtf_sc/Astrocyte.gtf | gzip > sc_merged.gtf.gz 
 
