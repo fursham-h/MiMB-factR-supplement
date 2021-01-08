@@ -1,5 +1,5 @@
 # Publication resources
-This repository holds key supplementary materials to our paper **"Functional annotation of custom transcriptomes"**. In this publication, we described the methods to assemble custom transcriptomes from different generations of RNA-sequencing (RNA-seq) experiements and annotate the functional output of novel isoforms using our custom R package, *factR*.
+This repository holds key supplementary materials to our paper **"Functional annotation of custom transcriptomes"**. In this publication, we described the methods to assemble custom transcriptomes from different RNA-sequencing (RNA-seq) experiments (bulk, single-cell and long-read) and annotate the functional output of novel isoforms using our custom R package, *factR*.
 
 ### Contents
 This site contains the following sub-folders:
@@ -15,7 +15,7 @@ Contents of this repository can be cloned to your local directory using Git or d
 #### Dependencies
 Below is a list of dependencies required to execute the workflow.
 
-1. [*factR*](https://github.com/fursham-h/factR)
+1. [*factR*](https://fursham-h.github.io/factR)
 2. [SRA toolkit](https://github.com/ncbi/sra-tools/wiki/01.-Downloading-SRA-Toolkit)
 3. [HISAT2](http://daehwankimlab.github.io/hisat2/download/)
 4. [Minimap2](https://github.com/lh3/minimap2)
@@ -34,7 +34,7 @@ bash ./download_assemble_sc.sh
 bash ./download_assemble_lr.sh
 ```
 
-The above scripts will output custom transcriptomes as compressed GTF files, identical to those found in folder "Custom transcriptome". These GTFs can be further processed to annotate functions of newly-discovered transcripts using tools from our custom R package *factR*. To perform this, refer to "Methods" section of our publication or to *factR*'s [vignette walkthrough](https://htmlpreview.github.io/?https://github.com/fursham-h/factR/blob/dev/doc/factR.html)
+The above scripts will output custom transcriptomes as compressed GTF files, identical to those found in folder "Custom transcriptome". These GTFs can be further processed to annotate functions of newly-discovered transcripts using tools from our custom R package *factR*. To perform this, refer to "Methods" section of our publication or to *factR*'s [vignette walkthrough](https://fursham-h.github.io/factR/articles/factR.html)
 
 ### Citing us
 If you use the materials from this repository, please cite _____
