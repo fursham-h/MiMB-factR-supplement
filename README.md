@@ -6,7 +6,6 @@ This site contains the following sub-folders:
 
 1. *"Workflow"* containing shell scripts and text files to build custom transcriptomes from bulk, single-cell or long-read RNA-seq experiments. 
 2. *"Custom transcriptome"* containing pre-built custom transcriptomes from bulk, single-cell or long-read RNA-seq experiments.
-3. *"Vignette"* containing a walkthrough of functional annotation analyses of custom transcriptomes assembled from bulk, single-cell or long-read RNA-seq experiments. (in preparation)
 
 ### Instructions
 
@@ -24,16 +23,21 @@ Below is a list of dependencies required to execute the workflow.
 6. [StringTie2](https://ccb.jhu.edu/software/stringtie/#install)
 
 #### Usage
-The shell scripts in folder *"Workflow"* are to be executed in command-line terminal. We advise installing required dependencies and adding them to PATH first. To run the script named "download_assemble_bulk.sh" (for example), type the following in terminal:
+The shell scripts in folder *"Workflow"* contain code to download and assemble transcriptomes from three RNA-seq datasets (bulk: download_assemble_bulk.sh; single-cell: download_assemble_sc.sh; long-read: download_assemble_lr.sh). Dependencies [2-6] listed [above](#dependencies) are to be installed on your computer and added to PATH. To execute any one these scripts, open terminal and type the following :
 
 ```bash
 cd Path/to/Workflow
-bash download_assemble_bulk.sh
+bash ./download_assemble_bulk.sh 
+#or
+bash ./download_assemble_sc.sh 
+#or
+bash ./download_assemble_lr.sh
 ```
 
-The compressed GTF files in folder "Custom transcriptome" serve as starting materials to demonstrate the usability of our custom R package *factR*. Please refer to the Methods section of our publication for a general workflow, or the PDFs in the *"Vignette"* folder for detailed workflow.
+The above scripts will output custom transcriptomes as compressed GTF files, identical to those found in folder "Custom transcriptome". These GTFs can be further processed to annotate functions of newly-discovered transcripts using tools from our custom R package *factR*. To perform this, refer to "Methods" section of our publication or to *factR*'s [vignette walkthrough](https://htmlpreview.github.io/?https://github.com/fursham-h/factR/blob/dev/doc/factR.html)
 
-### Citation
+
+### Citing us
 If you use the materials from this repository, please cite _____
 
 ### Contact
