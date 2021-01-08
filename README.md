@@ -36,7 +36,6 @@ bash ./download_assemble_lr.sh
 
 The above scripts will output custom transcriptomes as compressed GTF files, identical to those found in folder "Custom transcriptome". These GTFs can be further processed to annotate functions of newly-discovered transcripts using tools from our custom R package *factR*. To perform this, refer to "Methods" section of our publication or to *factR*'s [vignette walkthrough](https://htmlpreview.github.io/?https://github.com/fursham-h/factR/blob/dev/doc/factR.html)
 
-
 ### Citing us
 If you use the materials from this repository, please cite _____
 
